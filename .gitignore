@@ -24,3 +24,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+api-gateway/cache/
+eureka-server/cache/
+reviews-api/cache/
