@@ -1,5 +1,7 @@
 package com.example.reviewsapi.controllers;
 
+import com.example.reviewsapi.models.Review;
+import com.example.reviewsapi.repositories.ReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.discovery.converters.Auto;
 import org.junit.Before;
@@ -32,8 +34,48 @@ import static org.mockito.BDDMockito.given;
 @WebMvcTest(ReviewsController.class)
 public class ReviewsControllerTest {
 
+
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private ReviewRepository mockReviewRepository;
+
+    @Before
+    public void setUp() {
+        Review firstReview = new Review(
+                12375757757L,
+                "dba",
+                "bldg",
+                "dba",
+                "street",
+                "boro",
+                "zip",
+                "review",
+                3,
+                "grade",
+                "category"
+        );
+
+        Review secondReview = new Review(
+                12344444L,
+                "dba",
+                "bldg",
+                "dba",
+                "street",
+                "boro",
+                "zip",
+                "review",
+                2,
+                "grade",
+                "category"
+        );
+
+        Iterable<Review> mockReviews =
+                Stream.of(firstReview, secondReview).collect(Collectors.toList());
+
+        given(mockReviewRepository.findAll()).willReturn(mockReviews);
+    }
 
     @Test
     public void findAllReviews_success_returnsStatusOK() throws Exception {
@@ -41,5 +83,13 @@ public class ReviewsControllerTest {
         this.mockMvc
                 .perform(get("/"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void findAllReviews_success_returnAllReviewsAsJSON() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 }
