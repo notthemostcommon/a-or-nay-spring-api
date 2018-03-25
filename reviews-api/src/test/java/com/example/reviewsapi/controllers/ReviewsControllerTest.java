@@ -75,6 +75,7 @@ public class ReviewsControllerTest {
                 Stream.of(firstReview, secondReview).collect(Collectors.toList());
 
         given(mockReviewRepository.findAll()).willReturn(mockReviews);
+        given(mockReviewRepository.findOne(1L)).willReturn(firstReview);
     }
 
     @Test
@@ -172,6 +173,104 @@ public class ReviewsControllerTest {
                 .perform(get("/"))
                 .andExpect(jsonPath("$[0].category", is("category")));
     }
+
+    @Test
+    public void findReviewById_success_returnsStatusOK() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void findReviewById_success_returnUserId() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.user_id", is(12375757757L)));
+    }
+
+    @Test
+    public void findReviewById_success_returnCamis() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.camis", is("camis")));
+    }
+
+    @Test
+    public void findReviewById_success_returnDba() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.dba", is("dba")));
+    }
+
+    @Test
+    public void findReviewById_success_returnBldg() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.bldg", is("bldg")));
+    }
+
+    @Test
+    public void findReviewById_success_returnStreet() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.street", is("street")));
+    }
+
+    @Test
+    public void findReviewById_success_returnBoro() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.boro", is("boro")));
+    }
+
+    @Test
+    public void findReviewById_success_returnZip() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.zip", is("zip")));
+    }
+
+    @Test
+    public void findReviewById_success_returnReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.review", is("review")));
+    }
+
+    @Test
+    public void findReviewById_success_returnRating() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.rating", is(3)));
+    }
+
+    @Test
+    public void findReviewById_success_returnGrade() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.grade", is("grade")));
+    }
+
+    @Test
+    public void findReviewById_success_returnCategory() throws Exception {
+
+        this.mockMvc
+                .perform(get("/1"))
+                .andExpect(jsonPath("$.category", is("category")));
+    }
+
+
 }
 
 //this.user_id = user_id;
