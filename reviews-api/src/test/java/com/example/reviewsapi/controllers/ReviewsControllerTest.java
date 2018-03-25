@@ -76,6 +76,8 @@ public class ReviewsControllerTest {
 
         given(mockReviewRepository.findAll()).willReturn(mockReviews);
         given(mockReviewRepository.findOne(1L)).willReturn(firstReview);
+        given(mockReviewRepository.findOne(4L)).willReturn(null);
+
     }
 
     @Test
@@ -269,6 +271,22 @@ public class ReviewsControllerTest {
                 .perform(get("/1"))
                 .andExpect(jsonPath("$.category", is("category")));
     }
+
+    @Test
+    public void findReviewById_failure_reviewNotFoundReturns404() throws Exception {
+
+        this.mockMvc
+                .perform(get("/4"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void findReviewById_failure_reviewNotFoundReturnNotFounErrorMessage() throws Exception {
+        this.mockMvc
+                .perform(get("/4"))
+                .andExpect(status().reason(containsString("Review with ID of 4 was not found!")));
+    }
+
 
 
 }
