@@ -3,7 +3,6 @@ package com.example.reviewsapi.controllers;
 
 import com.example.reviewsapi.models.Review;
 import com.example.reviewsapi.repositories.ReviewRepository;
-import com.netflix.servo.util.VisibleForTesting;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,6 +20,7 @@ public class ReviewsController {
 
     @GetMapping("/")
     public Iterable<Review> findAllReviews() {
+        System.out.println("inside get all controller");
         return reviewRepository.findAll();
     }
 
@@ -43,6 +43,31 @@ public class ReviewsController {
     @PostMapping("/")
     public Review createNewUser(@RequestBody Review newUser) {
         return reviewRepository.save(newUser);
+    }
+
+    @PatchMapping("/{reviewId}")
+    public Review updateReviewById(@PathVariable Long reviewId, @RequestBody Review reviewRequest) throws NotFoundException{
+        Review reviewFromDb = reviewRepository.findOne(reviewId);
+        System.out.println("inside patch controller" + reviewId + reviewRequest);
+
+
+        if (reviewFromDb == null) {
+            throw new NotFoundException("Review with ID of "+ reviewId + " was not found");
+        }
+
+        reviewFromDb.setUser_id(reviewRequest.getUser_id());
+        reviewFromDb.setCamis(reviewRequest.getCamis());
+        reviewFromDb.setDba(reviewRequest.getDba());
+        reviewFromDb.setBldg(reviewRequest.getBldg());
+        reviewFromDb.setStreet(reviewRequest.getStreet());
+        reviewFromDb.setBldg(reviewRequest.getBldg());
+        reviewFromDb.setZip(reviewRequest.getZip());
+        reviewFromDb.setReview(reviewRequest.getReview());
+        reviewFromDb.setRating(reviewRequest.getRating());
+        reviewFromDb.setGrade(reviewRequest.getGrade());
+        reviewFromDb.setCategory(reviewRequest.getCategory());
+
+        return reviewRepository.save(reviewFromDb);
     }
 
 

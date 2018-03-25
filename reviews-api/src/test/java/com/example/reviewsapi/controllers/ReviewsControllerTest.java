@@ -38,13 +38,15 @@ public class ReviewsControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private ReviewRepository mockReviewRepository;
+    private Review newReview;
+
+    private Review updatedSecondReview;
 
     @Autowired
     private ObjectMapper jsonObjectMapper;
 
-    private Review newReview;
+    @MockBean
+    private ReviewRepository mockReviewRepository;
 
     @Before
     public void setUp() {
@@ -90,6 +92,21 @@ public class ReviewsControllerTest {
                 "category3"
         );
         given(mockReviewRepository.save(newReview)).willReturn(newReview);
+
+        updatedSecondReview = new Review(
+                12L,
+                "camis4",
+                "dba4",
+                "bldg4",
+                "street4",
+                "boro4",
+                "zip4",
+                "review4",
+                4,
+                "grade4",
+                "category4"
+        );
+        given(mockReviewRepository.save(updatedSecondReview)).willReturn(updatedSecondReview);
 
         Iterable<Review> mockReviews =
                 Stream.of(firstReview, secondReview).collect(Collectors.toList());
@@ -337,9 +354,9 @@ public class ReviewsControllerTest {
 
         this.mockMvc
                 .perform(
-                        post("/")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonObjectMapper.writeValueAsString(newReview))
+                    post("/")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(jsonObjectMapper.writeValueAsString(newReview))
                 )
                 .andExpect(status().isOk());
     }
@@ -349,12 +366,133 @@ public class ReviewsControllerTest {
 
         this.mockMvc
                 .perform(
-                        post("/")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonObjectMapper.writeValueAsString(newReview))
+                    post("/")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(jsonObjectMapper.writeValueAsString(newReview))
                 )
                 .andExpect(jsonPath("$.user_id", is(12344443)));
     }
+
+    @Test
+    public void updatedReviewById_success_returnsStatusOk() throws Exception {
+
+        this.mockMvc
+                .perform(
+                    patch("/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+                )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateReviewById_success_returnsUpdatedUserId() throws Exception {
+
+        this.mockMvc
+                .perform(
+                    patch("/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+            )
+                .andExpect(jsonPath("$.user_id", is(12L)));
+    }
+
+    @Test
+    public void updateReviewById_success_returnsUpdatedCamis() throws Exception {
+
+        this.mockMvc
+                .perform(
+                    patch("/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+            )
+                .andExpect(jsonPath("$.camis", is("camis4")));
+    }
+
+    @Test
+    public void updateReviewById_success_returnsUpdatedDba() throws Exception {
+
+        this.mockMvc
+                .perform(
+                    patch("/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+            )
+                .andExpect(jsonPath("$.dba", is("dba4")));
+    }
+
+    @Test
+    public void updateReviewById_success_returnsUpdatedBldg() throws Exception {
+
+        this.mockMvc
+                .perform(
+                    patch("/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+                )
+                .andExpect(jsonPath("$.bldg", is("bldg4")));
+    }
+
+    @Test
+    public void updateReviewById_success_returnsUpdatedStreet() throws Exception {
+
+        this.mockMvc
+                .perform(
+                    patch("/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+            )
+                .andExpect(jsonPath("$.street", is("street4")));
+    }
+
+    @Test
+    public void updateReviewById_success_returnsUpdatedBoro() throws Exception {
+
+        this.mockMvc
+                .perform(
+                    patch("/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+            )
+                .andExpect(jsonPath("$.boro", is("boro4")));
+    }
+
+    @Test
+    public void updateReviewById_success_returnsUpdatedZip() throws Exception {
+
+        this.mockMvc
+                .perform(
+                    patch("/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+            )
+                .andExpect(jsonPath("$.zip", is("zip4")));
+    }
+
+    @Test
+    public void updateReviewById_failure_userNotFoundReturns404() throws Exception {
+
+        this.mockMvc
+                .perform(
+                        patch("/4")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void updateReviewById_failure_userNotFoundReturnsNotFoundErrorMessage() throws Exception {
+
+        this.mockMvc
+                .perform(
+                        patch("/4")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
+                )
+                .andExpect(status().reason(containsString("Review with ID of 4 was not found!")));
+    }
+
 
 
 

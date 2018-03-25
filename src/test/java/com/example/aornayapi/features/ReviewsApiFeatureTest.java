@@ -21,8 +21,6 @@ import static org.hamcrest.core.Is.is;
 import java.util.stream.Stream;
 
 
-import java.util.stream.Stream;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class ReviewsApiFeatureTest {
