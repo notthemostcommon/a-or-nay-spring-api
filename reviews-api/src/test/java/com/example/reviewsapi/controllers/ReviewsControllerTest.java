@@ -41,6 +41,11 @@ public class ReviewsControllerTest {
     @MockBean
     private ReviewRepository mockReviewRepository;
 
+    @Autowired
+    private ObjectMapper jsonObjectMapper;
+
+    private Review newReview;
+
     @Before
     public void setUp() {
         Review firstReview = new Review(
@@ -70,6 +75,21 @@ public class ReviewsControllerTest {
                 "grade2",
                 "category2"
         );
+
+        newReview = new Review(
+                12344443L,
+                "camis3",
+                "dba3",
+                "bldg3",
+                "street3",
+                "boro3",
+                "zip3",
+                "review3",
+                3,
+                "grade3",
+                "category3"
+        );
+        given(mockReviewRepository.save(newReview)).willReturn(newReview);
 
         Iterable<Review> mockReviews =
                 Stream.of(firstReview, secondReview).collect(Collectors.toList());
@@ -310,6 +330,30 @@ public class ReviewsControllerTest {
         this.mockMvc
                 .perform(delete("/4"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void createReview_success_returnsStatusOk() throws Exception {
+
+        this.mockMvc
+                .perform(
+                        post("/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonObjectMapper.writeValueAsString(newReview))
+                )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void createReview_success_returnsUserId() throws Exception {
+
+        this.mockMvc
+                .perform(
+                        post("/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonObjectMapper.writeValueAsString(newReview))
+                )
+                .andExpect(jsonPath("$.user_id", is(12344443)));
     }
 
 

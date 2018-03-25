@@ -40,6 +40,11 @@ public class ReviewsController {
         return HttpStatus.OK;
     }
 
+    @PostMapping("/")
+    public Review createNewUser(@RequestBody Review newUser) {
+        return reviewRepository.save(newUser);
+    }
+
 
 
     // EXCEPTION HANDLERS
