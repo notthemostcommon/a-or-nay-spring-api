@@ -6,6 +6,7 @@ import com.example.reviewsapi.repositories.ReviewRepository;
 import com.netflix.servo.util.VisibleForTesting;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class ReviewsController {
     }
 
     @DeleteMapping("/{reviewId}")
-    public HttpStatus deleteReviewById(@PathVariable Long reviewId){
+    public HttpStatus deleteReviewById(@PathVariable Long reviewId) throws EmptyResultDataAccessException {
         reviewRepository.delete(reviewId);
         return HttpStatus.OK;
     }
@@ -49,5 +50,13 @@ public class ReviewsController {
             HttpServletResponse response) throws IOException {
 
         response.sendError(HttpStatus.NOT_FOUND.value(), exception.getMessage());
+    }
+
+    @ExceptionHandler
+    void handleDeleteNotFoundException(
+            EmptyResultDataAccessException exception,
+            HttpServletResponse response) throws IOException {
+
+        response.sendError(HttpStatus.NOT_FOUND.value());
     }
 }

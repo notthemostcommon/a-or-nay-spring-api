@@ -77,6 +77,10 @@ public class ReviewsControllerTest {
         given(mockReviewRepository.findAll()).willReturn(mockReviews);
         given(mockReviewRepository.findOne(1L)).willReturn(firstReview);
         given(mockReviewRepository.findOne(4L)).willReturn(null);
+        // Mock out Delete to return EmptyResultDataAccessException for missing user with ID of 4
+        doAnswer(invocation -> {
+            throw new EmptyResultDataAccessException("ERROR MESSAGE FROM MOCK!!!", 1234);
+        }).when(mockReviewRepository).delete(4L);
 
     }
 
@@ -299,6 +303,16 @@ public class ReviewsControllerTest {
         this.mockMvc.perform(delete("/1"));
         verify(mockReviewRepository, times(1)).delete(1L);
     }
+
+    @Test
+    public void deleteReviewById_failure_userNotFoundReturns404() throws Exception {
+
+        this.mockMvc
+                .perform(delete("/4"))
+                .andExpect(status().isNotFound());
+    }
+
+
 
 
 
