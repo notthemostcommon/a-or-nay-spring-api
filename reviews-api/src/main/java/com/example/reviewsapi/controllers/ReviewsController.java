@@ -30,7 +30,7 @@ public class ReviewsController {
         Review foundReview = reviewRepository.findOne(reviewId);
 
         if (foundReview == null) {
-            throw new NotFoundException("this sucks but reviw with ID" + reviewId + "not there!");
+            throw new NotFoundException("this sucks but review with ID of " + reviewId + " is not there!");
         }
         return foundReview;
     }

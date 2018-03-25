@@ -284,8 +284,17 @@ public class ReviewsControllerTest {
     public void findReviewById_failure_reviewNotFoundReturnNotFounErrorMessage() throws Exception {
         this.mockMvc
                 .perform(get("/4"))
-                .andExpect(status().reason(containsString("Review with ID of 4 was not found!")));
+                .andExpect(status().reason(containsString("this sucks but review with ID of 4 is not there!")));
     }
+
+    @Test
+    public void deleteReviewById_success_returnStatusOk() throws Exception{
+        this.mockMvc
+                .perform(delete("/1"))
+                .andExpect(status().isOk());
+    }
+
+
 
 
 
