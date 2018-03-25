@@ -294,6 +294,12 @@ public class ReviewsControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void deleteReviewById_success_deleteViaRepository() throws Exception {
+        this.mockMvc.perform(delete("/1"));
+        verify(mockReviewRepository, times(1)).delete(1L);
+    }
+
 
 
 
