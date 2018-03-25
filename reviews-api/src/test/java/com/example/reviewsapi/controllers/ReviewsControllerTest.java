@@ -45,9 +45,9 @@ public class ReviewsControllerTest {
     public void setUp() {
         Review firstReview = new Review(
                 12375757757L,
+                "camis",
                 "dba",
                 "bldg",
-                "dba",
                 "street",
                 "boro",
                 "zip",
@@ -59,16 +59,16 @@ public class ReviewsControllerTest {
 
         Review secondReview = new Review(
                 12344444L,
-                "dba",
-                "bldg",
-                "dba",
-                "street",
-                "boro",
-                "zip",
-                "review",
+                "camis2",
+                "dba2",
+                "bldg2",
+                "street2",
+                "boro2",
+                "zip2",
+                "review2",
                 2,
-                "grade",
-                "category"
+                "grade2",
+                "category2"
         );
 
         Iterable<Review> mockReviews =
@@ -92,4 +92,96 @@ public class ReviewsControllerTest {
                 .perform(get("/"))
                 .andExpect(jsonPath("$", hasSize(2)));
     }
+
+    @Test
+    public void findAllReviews_success_returnCamisForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].camis", is("camis")));
+    }
+
+    @Test
+    public void findAllReviews_success_returnUseridForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].user_id", is(12375757757L)));
+    }
+
+    @Test
+    public void findAllReviews_success_returnBldgForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].bldg", is("bldg")));
+    }
+
+    @Test
+    public void findAllReviews_success_returnStreetForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].street", is("street")));
+    }
+
+    @Test
+    public void findAllReviews_success_returnBoroForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].boro", is("boro")));
+    }
+
+    @Test
+    public void findAllReviews_success_returnZipForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].zip", is("zip")));
+    }
+
+    @Test
+    public void findAllReviews_success_returnReviewForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].review", is("review")));
+    }
+
+    @Test
+    public void findAllReviews_success_returnRatingForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].rating", is(3)));
+    }
+
+    @Test
+    public void findAllReviews_success_returnGradeForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].grade", is("grade")));
+    }
+
+    @Test
+    public void findAllReviews_success_returnCategoryForEachReview() throws Exception {
+
+        this.mockMvc
+                .perform(get("/"))
+                .andExpect(jsonPath("$[0].category", is("category")));
+    }
 }
+
+//this.user_id = user_id;
+//        this.camis = camis;
+//        this.dba = dba;
+//        this.bldg = bldg;
+//        this.street = street;
+//        this.boro = boro;
+//        this.zip = zip;
+//        this.review = review;
+//        this.rating = rating;
+//        this.grade = grade;
+//        this.category = category;
