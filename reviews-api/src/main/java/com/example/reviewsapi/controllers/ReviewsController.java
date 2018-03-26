@@ -26,6 +26,7 @@ public class ReviewsController {
 
     @GetMapping("/{reviewId}")
     public Review findReviewById(@PathVariable Long reviewId) throws NotFoundException {
+
         Review foundReview = reviewRepository.findOne(reviewId);
 
         if (foundReview == null) {
@@ -41,14 +42,14 @@ public class ReviewsController {
     }
 
     @PostMapping("/")
-    public Review createNewUser(@RequestBody Review newUser) {
-        return reviewRepository.save(newUser);
-    }
+    public Review createNewReview(@RequestBody Review newReview) {
 
-    @PatchMapping("/{reviewId}")
-    public Review updateReviewById(@PathVariable Long reviewId, @RequestBody Review reviewRequest) throws NotFoundException{
+        return reviewRepository.save(newReview);
+    }
+    @PutMapping("/{reviewId}")
+    public Review putReviewById(@PathVariable Long reviewId, @RequestBody Review reviewRequest) throws NotFoundException{
         Review reviewFromDb = reviewRepository.findOne(reviewId);
-        System.out.println("inside patch controller" + reviewId + reviewRequest);
+        System.out.println("inside put controller" + reviewId + reviewRequest);
 
 
         if (reviewFromDb == null) {
@@ -60,7 +61,7 @@ public class ReviewsController {
         reviewFromDb.setDba(reviewRequest.getDba());
         reviewFromDb.setBldg(reviewRequest.getBldg());
         reviewFromDb.setStreet(reviewRequest.getStreet());
-        reviewFromDb.setBldg(reviewRequest.getBldg());
+        reviewFromDb.setBoro(reviewRequest.getBoro());
         reviewFromDb.setZip(reviewRequest.getZip());
         reviewFromDb.setReview(reviewRequest.getReview());
         reviewFromDb.setRating(reviewRequest.getRating());
@@ -69,6 +70,34 @@ public class ReviewsController {
 
         return reviewRepository.save(reviewFromDb);
     }
+
+
+//    @PatchMapping("/{reviewId}")
+//    public Review updateReviewById(@PathVariable Long reviewId, @RequestBody Review reviewRequest) throws NotFoundException{
+//        Review reviewFromDb = reviewRepository.findOne(reviewId);
+//        System.out.println("inside patch controller" + reviewId + reviewRequest);
+//
+//
+//        if (reviewFromDb == null) {
+//            throw new NotFoundException("Review with ID of "+ reviewId + " was not found");
+//        }
+//
+//        reviewFromDb.setUser_id(reviewRequest.getUser_id());
+//        reviewFromDb.setCamis(reviewRequest.getCamis());
+//        reviewFromDb.setDba(reviewRequest.getDba());
+//        reviewFromDb.setBldg(reviewRequest.getBldg());
+//        reviewFromDb.setStreet(reviewRequest.getStreet());
+//        reviewFromDb.setBoro(reviewRequest.getBoro());
+//        reviewFromDb.setZip(reviewRequest.getZip());
+//        reviewFromDb.setReview(reviewRequest.getReview());
+//        reviewFromDb.setRating(reviewRequest.getRating());
+//        reviewFromDb.setGrade(reviewRequest.getGrade());
+//        reviewFromDb.setCategory(reviewRequest.getCategory());
+//
+//        return reviewRepository.save(reviewFromDb);
+//    }
+
+
 
 
 

@@ -33,6 +33,11 @@ public class ReviewsApiFeatureTest {
         reviewRepository.deleteAll();
     }
 
+    @After
+    public void tearDown() {
+        reviewRepository.deleteAll();
+    }
+
     @Test
     public void shouldAllowFullCrudForAUser() throws Exception {
         Review firstReview = new Review(
@@ -67,6 +72,12 @@ public class ReviewsApiFeatureTest {
                 .forEach(review -> {
                     reviewRepository.save(review);
                 });
+        when()
+                .get("http://localhost:8080/reviews/")
+                .then()
+                .statusCode(is(200))
+                .and().body(containsString("dba"))
+                .and().body(containsString("street"));
 
         // Test creating a User
         Review reviewNotYetInDb = new Review(
@@ -148,8 +159,5 @@ public class ReviewsApiFeatureTest {
 
 
 
-    @After
-    public void tearDown() {
-        reviewRepository.deleteAll();
-    }
+
 }

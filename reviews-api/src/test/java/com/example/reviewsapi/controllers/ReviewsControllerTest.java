@@ -118,7 +118,7 @@ public class ReviewsControllerTest {
         doAnswer(invocation -> {
             throw new EmptyResultDataAccessException("ERROR MESSAGE FROM MOCK!!!", 1234);
         }).when(mockReviewRepository).delete(4L);
-
+        System.out.println("end of setup=========");
     }
 
     @Test
@@ -409,6 +409,8 @@ public class ReviewsControllerTest {
                 .andExpect(jsonPath("$.camis", is("camis4")));
     }
 
+
+
     @Test
     public void updateReviewById_success_returnsUpdatedDba() throws Exception {
 
@@ -459,11 +461,17 @@ public class ReviewsControllerTest {
 
     @Test
     public void updateReviewById_success_returnsUpdatedZip() throws Exception {
+        System.out.println("whatever string you can think of");
+
+        System.out.println("this is json object" + jsonObjectMapper.writeValueAsString(updatedSecondReview));
 
         this.mockMvc
                 .perform(
-                    patch("/1")
+                    put("/1")
                             .contentType(MediaType.APPLICATION_JSON)
+//                            .content("{'user_id':12, 'camis':'camis4', 'dba':'dba4', 'bldg':'bldg4', 'street':'street4', 'boro':'boro4', 'zip':'zip4', 'review':'review4', 'rating':4, 'grade':'grade4', 'category':'category4'}")
+
+//                            .content("{\"id\":null,\"user_id\":12,\"camis\":\"camis4\",\"dba\":\"dba4\",\"bldg\":\"bldg4\",\"street\":\"street4\",\"boro\":\"boro4\",\"zip\":\"zip4\",\"review\":\"review4\",\"rating\":4,\"grade\":\"grade4\",\"category\":\"category4\"}")
                             .content(jsonObjectMapper.writeValueAsString(updatedSecondReview))
             )
                 .andExpect(jsonPath("$.zip", is("zip4")));
@@ -492,14 +500,6 @@ public class ReviewsControllerTest {
                 )
                 .andExpect(status().reason(containsString("Review with ID of 4 was not found!")));
     }
-
-
-
-
-
-
-
-
 }
 
 //this.user_id = user_id;

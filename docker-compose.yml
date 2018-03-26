@@ -7,7 +7,7 @@ services:
         - '8761:8761'
       working_dir: /eureka-server
       volumes:
-        - ./eureka-server:/eureka-server
+        - ./eureka-server:/eureka-server:cached
       command: './gradlew bootRun'
       environment:
         - GRADLE_USER_HOME=cache
@@ -31,9 +31,8 @@ services:
         - '8081:8081'
       working_dir: /reviews-api
       volumes:
-        - ./reviews-api:/reviews-api
+        - ./reviews-api:/reviews-api:cached
       depends_on:
-        - eureka
         - postgresdev
       command: './gradlew bootRun'
       environment:
