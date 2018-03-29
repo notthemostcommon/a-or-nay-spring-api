@@ -23,7 +23,8 @@ public class ReviewsController {
         System.out.println("inside get all controller");
         return reviewRepository.findAll();
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/reviews", method = RequestMethod.GET)
     @GetMapping("/{reviewId}")
     public Review findReviewById(@PathVariable Long reviewId) throws NotFoundException {
 
