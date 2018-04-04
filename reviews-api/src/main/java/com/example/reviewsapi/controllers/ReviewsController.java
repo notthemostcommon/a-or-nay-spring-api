@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,7 +26,6 @@ public class ReviewsController {
         return reviewRepository.findAll();
     }
     @CrossOrigin(origins = "http://localhost:3000")
-    @RequestMapping(value = "/reviews", method = RequestMethod.GET)
     @GetMapping("/{reviewId}")
     public Review findReviewById(@PathVariable Long reviewId) throws NotFoundException {
 
@@ -36,17 +37,29 @@ public class ReviewsController {
         return foundReview;
     }
 
+
+//    @CrossOrigin
+//    @RequestMapping("/location/{locationId}")
+//        public List<Review> findReviewByCamis(@PathVariable String locationId) throws NotFoundException {
+//        List<Review> reviews = reviewRepository.findByCamis(locationId);
+//        return reviews;
+//    }
+
+    @CrossOrigin
     @DeleteMapping("/{reviewId}")
     public HttpStatus deleteReviewById(@PathVariable Long reviewId) throws EmptyResultDataAccessException {
         reviewRepository.delete(reviewId);
         return HttpStatus.OK;
     }
 
+    @CrossOrigin
     @PostMapping("/")
     public Review createNewReview(@RequestBody Review newReview) {
 
         return reviewRepository.save(newReview);
     }
+
+    @CrossOrigin
     @PutMapping("/{reviewId}")
     public Review putReviewById(@PathVariable Long reviewId, @RequestBody Review reviewRequest) throws NotFoundException{
         Review reviewFromDb = reviewRepository.findOne(reviewId);
@@ -71,6 +84,8 @@ public class ReviewsController {
 
         return reviewRepository.save(reviewFromDb);
     }
+
+
 
 
 //    @PatchMapping("/{reviewId}")

@@ -98,8 +98,16 @@ public class ReviewRepositoryTest {
     public void findAll_returnsDba() {
         Iterable<Review> reviewsFromDb = reviewRepository.findAll();
 
-        String secondUsersLastName = Iterables.get(reviewsFromDb, 1).getDba();
+        String secondReviewsLastName = Iterables.get(reviewsFromDb, 1).getDba();
 
         assertThat(secondUsersLastName, is("dba2"));
+    }
+
+    @Test
+    public void findByCamis(){
+        List<Review> findByCamis = reviewRepository.findAll();
+
+        String secondReviewsCamis = Iterables.get(findByCamis, 1).getCamis;
+        assertThat(secondReviewsCamis, is(c"camis2"));
     }
 }
