@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 public interface ReviewRepository extends CrudRepository<Review, Long> {
 
-//    List<Review> findByCamis(String camis );
+    List<Review> findByCamis(String camis );
 }
 
 

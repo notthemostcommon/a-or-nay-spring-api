@@ -25,7 +25,8 @@ public class ReviewsController {
         System.out.println("inside get all controller");
         return reviewRepository.findAll();
     }
-    @CrossOrigin(origins = "http://localhost:3000")
+
+    @CrossOrigin
     @GetMapping("/{reviewId}")
     public Review findReviewById(@PathVariable Long reviewId) throws NotFoundException {
 
@@ -38,12 +39,13 @@ public class ReviewsController {
     }
 
 
-//    @CrossOrigin
-//    @RequestMapping("/location/{locationId}")
-//        public List<Review> findReviewByCamis(@PathVariable String locationId) throws NotFoundException {
-//        List<Review> reviews = reviewRepository.findByCamis(locationId);
-//        return reviews;
-//    }
+    @CrossOrigin
+    @RequestMapping("/location/{locationId}")
+        public List<Review> findReviewByCamis(@PathVariable String locationId) throws NotFoundException {
+        List<Review> reviews = reviewRepository.findByCamis(locationId);
+        return reviews;
+    }
+
 
     @CrossOrigin
     @DeleteMapping("/{reviewId}")
